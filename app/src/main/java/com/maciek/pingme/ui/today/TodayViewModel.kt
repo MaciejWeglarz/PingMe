@@ -3,7 +3,6 @@ package com.maciek.pingme.ui.today
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maciek.pingme.data.TaskRepository
-import com.maciek.pingme.data.reminder.ReminderScheduler
 import com.maciek.pingme.domain.DayTask
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,10 +20,7 @@ import javax.inject.Inject
 data class TodayState(val date: LocalDate, val tasks: List<DayTask>?)
 
 @HiltViewModel
-class TodayViewModel @Inject constructor(
-    private val repository: TaskRepository,
-    private val scheduler: ReminderScheduler,
-) : ViewModel() {
+class TodayViewModel @Inject constructor(private val repository: TaskRepository) : ViewModel() {
 
     private val today = MutableStateFlow(LocalDate.now())
 
@@ -33,17 +29,9 @@ class TodayViewModel @Inject constructor(
         .flatMapLatest { date -> repository.observeDay(date).map { TodayState(date, it) } }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), TodayState(today.value, null))
 
-    /**
-     * Wywoływane przy każdym powrocie do aplikacji: po północy przełącza listę na nowy dzień
-     * i odnawia alarmy na wypadek, gdyby system je usunął.
-     */
+    /** Wywoływane przy każdym powrocie do aplikacji: po północy przełącza listę na nowy dzień. */
     fun refresh() {
-        val now = LocalDate.now()
-        today.value = now
-        viewModelScope.launch {
-            repository.fillMissedOccurrences(now)
-            scheduler.scheduleAll()
-        }
+        today.value = LocalDate.now()
     }
 
     fun setDone(taskId: Long, done: Boolean) {

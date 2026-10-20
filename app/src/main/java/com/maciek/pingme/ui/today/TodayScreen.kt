@@ -92,6 +92,7 @@ private fun TaskRow(item: DayTask, onDoneChange: (Boolean) -> Unit) {
     val time = buildString {
         append(task.reminderTime.formatTime())
         task.deadline?.let { append(" · ").append(stringResource(R.string.today_deadline, it.formatTime())) }
+        item.streak?.takeIf { it > 0 }?.let { append(" · ").append(stringResource(R.string.streak, it)) }
     }
     ListItem(
         modifier = Modifier
@@ -117,8 +118,8 @@ private fun TodayContentPreview() {
             TodayState(
                 LocalDate.now(),
                 listOf(
-                    DayTask(task(1, "Mycie zębów rano", 7, null), done = true),
-                    DayTask(task(2, "Suplementy", 9, 10), done = false),
+                    DayTask(task(1, "Mycie zębów rano", 7, null), done = true, streak = 12),
+                    DayTask(task(2, "Suplementy", 9, 10), done = false, streak = 0),
                 ),
             ),
             onAddClick = {},

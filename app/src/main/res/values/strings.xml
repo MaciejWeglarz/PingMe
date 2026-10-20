@@ -11,6 +11,7 @@
     <!-- Zakładki -->
     <string name="tab_today">Dziś</string>
     <string name="tab_all">Wszystkie</string>
+    <string name="tab_stats">Statystyki</string>
 
     <!-- Wszystkie zadania -->
     <string name="all_tasks_title">Wszystkie zadania</string>
@@ -22,6 +23,16 @@
     <string name="delete">Usuń</string>
     <string name="delete_title">Usunąć zadanie?</string>
     <string name="delete_text">Zadanie „%1$s” zniknie z list. Historia zostanie zachowana w statystykach.</string>
+
+    <!-- Statystyki i serie -->
+    <string name="stats_title">Statystyki</string>
+    <string name="stats_empty">Brak danych za ten miesiąc</string>
+    <string name="stats_counts">Zrobione: %1$d · Pominięte: %2$d</string>
+    <string name="stats_archived">usunięte</string>
+    <string name="stats_percent">%1$d%%</string>
+    <string name="streak">🔥 %1$d</string>
+    <string name="previous_month">Poprzedni miesiąc</string>
+    <string name="next_month">Następny miesiąc</string>
 
     <!-- Formularz zadania -->
     <string name="back">Wstecz</string>

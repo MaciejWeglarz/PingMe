@@ -7,12 +7,15 @@ import com.maciek.pingme.domain.DayTask
 import com.maciek.pingme.domain.Occurrence
 import com.maciek.pingme.domain.OccurrenceStatus
 import com.maciek.pingme.domain.Task
+import com.maciek.pingme.domain.TaskStats
 import com.maciek.pingme.domain.missedDates
+import com.maciek.pingme.domain.monthlyStats
 import com.maciek.pingme.domain.tasksForDay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
+import java.time.YearMonth
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,8 +36,13 @@ class TaskRepository @Inject constructor(
     }
 
     fun observeDay(date: LocalDate): Flow<List<DayTask>> =
-        combine(taskDao.observeActive(), occurrenceDao.observeForDate(date.toEpochDay())) { tasks, occurrences ->
+        combine(taskDao.observeActive(), occurrenceDao.observeAll()) { tasks, occurrences ->
             tasksForDay(tasks.map { it.toDomain() }, occurrences.map { it.toDomain() }, date)
+        }
+
+    fun observeMonthlyStats(month: YearMonth): Flow<List<TaskStats>> =
+        combine(taskDao.observeAll(), occurrenceDao.observeAll()) { tasks, occurrences ->
+            monthlyStats(tasks.map { it.toDomain() }, occurrences.map { it.toDomain() }, month)
         }
 
     fun observeActiveTasks(): Flow<List<Task>> =

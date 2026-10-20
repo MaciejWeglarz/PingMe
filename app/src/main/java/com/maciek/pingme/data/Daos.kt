@@ -13,6 +13,10 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE archived = 0 ORDER BY reminderMinutes")
     fun observeActive(): Flow<List<TaskEntity>>
 
+    /** Wszystkie zadania, także zarchiwizowane (do statystyk). */
+    @Query("SELECT * FROM tasks")
+    fun observeAll(): Flow<List<TaskEntity>>
+
     @Query("SELECT * FROM tasks WHERE archived = 0")
     suspend fun getActive(): List<TaskEntity>
 
@@ -41,8 +45,8 @@ interface OccurrenceDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertIgnore(occurrences: List<OccurrenceEntity>)
 
-    @Query("SELECT * FROM occurrences WHERE date = :date")
-    fun observeForDate(date: Long): Flow<List<OccurrenceEntity>>
+    @Query("SELECT * FROM occurrences")
+    fun observeAll(): Flow<List<OccurrenceEntity>>
 
     @Query("SELECT * FROM occurrences WHERE taskId = :taskId AND date BETWEEN :from AND :to")
     suspend fun getForTaskInRange(taskId: Long, from: Long, to: Long): List<OccurrenceEntity>

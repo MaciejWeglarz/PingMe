@@ -25,6 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.maciek.pingme.R
 import com.maciek.pingme.ui.alltasks.AllTasksScreen
+import com.maciek.pingme.ui.stats.StatsScreen
 import com.maciek.pingme.ui.taskform.TaskFormScreen
 import com.maciek.pingme.ui.taskform.TaskFormViewModel
 import com.maciek.pingme.ui.today.TodayScreen
@@ -33,10 +34,12 @@ private const val TODAY = "today"
 private const val ALL_TASKS = "all_tasks"
 private const val ADD_TASK = "add_task"
 private const val EDIT_TASK = "edit_task"
+private const val STATS = "stats"
 
 private enum class Tab(val route: String, @param:StringRes val label: Int, @param:DrawableRes val icon: Int) {
     TODAY_TAB(TODAY, R.string.tab_today, R.drawable.ic_today),
     ALL_TASKS_TAB(ALL_TASKS, R.string.tab_all, R.drawable.ic_list),
+    STATS_TAB(STATS, R.string.tab_stats, R.drawable.ic_stats),
 }
 
 @Composable
@@ -79,6 +82,9 @@ fun PingMeNavHost() {
                     onAddClick = { navController.navigate(ADD_TASK) },
                     onTaskClick = { taskId -> navController.navigate("$EDIT_TASK/$taskId") },
                 )
+            }
+            composable(STATS) {
+                StatsScreen()
             }
             composable(ADD_TASK) {
                 TaskFormScreen(onDone = { navController.popBackStack() })
