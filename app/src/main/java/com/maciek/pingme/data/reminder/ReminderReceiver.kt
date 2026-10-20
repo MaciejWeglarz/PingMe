@@ -38,7 +38,7 @@ class ReminderReceiver : BroadcastReceiver() {
         when (action) {
             ACTION_REMINDER, ACTION_SNOOZE_FIRED, ACTION_DEADLINE -> {
                 val task = repository.getTask(taskId) ?: return
-                if (task.occursOn(date) && !repository.isDone(taskId, date)) {
+                if (!task.archived && task.occursOn(date) && !repository.isDone(taskId, date)) {
                     if (action == ACTION_DEADLINE) {
                         notifier.cancelReminder(taskId)
                         notifier.showAlarm(task, date)

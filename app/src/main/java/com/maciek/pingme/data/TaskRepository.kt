@@ -11,6 +11,7 @@ import com.maciek.pingme.domain.missedDates
 import com.maciek.pingme.domain.tasksForDay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -36,9 +37,26 @@ class TaskRepository @Inject constructor(
             tasksForDay(tasks.map { it.toDomain() }, occurrences.map { it.toDomain() }, date)
         }
 
+    fun observeActiveTasks(): Flow<List<Task>> =
+        taskDao.observeActive().map { tasks -> tasks.map { it.toDomain() } }
+
     suspend fun addTask(task: Task) {
         val id = taskDao.insert(task.toEntity())
         scheduler.schedule(task.copy(id = id))
+    }
+
+    suspend fun updateTask(task: Task) {
+        taskDao.update(task.toEntity())
+        scheduler.schedule(task)
+    }
+
+    /** „Usunięcie” zadania: znika z list, ale historia zostaje w statystykach. */
+    suspend fun archiveTask(id: Long) {
+        val archived = getTask(id)?.copy(archived = true) ?: return
+        taskDao.update(archived.toEntity())
+        // Dla zarchiwizowanego zadania nie ma kolejnych terminów, więc alarmy zostaną anulowane.
+        scheduler.schedule(archived)
+        notifier.cancelAll(id)
     }
 
     suspend fun setDone(taskId: Long, date: LocalDate, done: Boolean) {

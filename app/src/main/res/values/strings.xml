@@ -6,6 +6,22 @@
     <string name="today_empty">Na dziś nic nie zaplanowano</string>
     <string name="today_deadline">do %1$s</string>
     <string name="add_task">Dodaj zadanie</string>
+    <string name="edit_task">Edytuj zadanie</string>
+
+    <!-- Zakładki -->
+    <string name="tab_today">Dziś</string>
+    <string name="tab_all">Wszystkie</string>
+
+    <!-- Wszystkie zadania -->
+    <string name="all_tasks_title">Wszystkie zadania</string>
+    <string name="all_tasks_empty">Nie masz jeszcze żadnych zadań</string>
+    <string name="desc_once">Jednorazowo, %1$s</string>
+    <string name="desc_weekly">Co tydzień (%1$s)</string>
+    <string name="desc_monthly">Co miesiąc, %1$d. dnia</string>
+    <string name="desc_from">od %1$s</string>
+    <string name="delete">Usuń</string>
+    <string name="delete_title">Usunąć zadanie?</string>
+    <string name="delete_text">Zadanie „%1$s” zniknie z list. Historia zostanie zachowana w statystykach.</string>
 
     <!-- Formularz zadania -->
     <string name="back">Wstecz</string>

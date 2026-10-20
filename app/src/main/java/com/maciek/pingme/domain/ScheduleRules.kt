@@ -38,6 +38,13 @@ fun Task.nextTriggerAt(time: LocalTime, now: LocalDateTime): LocalDateTime? {
 }
 
 /**
+ * Nowe checkedUntil po zmianie daty startu w edycji: dni już sprawdzone (do wczoraj) zostają sprawdzone,
+ * a pominięcia liczymy najwcześniej od nowej daty startu.
+ */
+fun rebasedCheckedUntil(oldCheckedUntil: LocalDate, newStartDate: LocalDate, today: LocalDate): LocalDate =
+    maxOf(minOf(oldCheckedUntil, today.minusDays(1)), newStartDate.minusDays(1))
+
+/**
  * Dni od checkedUntil+1 do wczoraj, w które zadanie wypadało, a nie zostało zrobione.
  * Te dni trzeba zapisać jako pominięte.
  */

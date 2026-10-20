@@ -1,4 +1,4 @@
-package com.maciek.pingme.ui.addtask
+package com.maciek.pingme.ui.taskform
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
@@ -63,19 +63,23 @@ import java.time.ZoneOffset
 import java.time.format.TextStyle
 
 @Composable
-fun AddTaskScreen(onDone: () -> Unit, viewModel: AddTaskViewModel = hiltViewModel()) {
+fun TaskFormScreen(onDone: () -> Unit, viewModel: TaskFormViewModel = hiltViewModel()) {
     val form by viewModel.form.collectAsStateWithLifecycle()
     val saved by viewModel.saved.collectAsStateWithLifecycle()
     LaunchedEffect(saved) { if (saved) onDone() }
-    AddTaskContent(form, onChange = viewModel::update, onSave = viewModel::save, onBack = onDone)
+    // Przy edycji formularz pojawia się po wczytaniu zadania z bazy.
+    form?.let {
+        TaskFormContent(it, isEdit = viewModel.isEdit, onChange = viewModel::update, onSave = viewModel::save, onBack = onDone)
+    }
 }
 
 private enum class TimeField { REMINDER, DEADLINE }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AddTaskContent(
+private fun TaskFormContent(
     form: TaskForm,
+    isEdit: Boolean,
     onChange: ((TaskForm) -> TaskForm) -> Unit,
     onSave: () -> Unit,
     onBack: () -> Unit,
@@ -88,7 +92,7 @@ private fun AddTaskContent(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.add_task)) },
+                title = { Text(stringResource(if (isEdit) R.string.edit_task else R.string.add_task)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(painterResource(R.drawable.ic_arrow_back), contentDescription = stringResource(R.string.back))
@@ -213,7 +217,7 @@ private fun AddTaskContent(
     if (showDateDialog) {
         DateDialog(
             initial = form.startDate,
-            minDate = today,
+            isAllowed = { form.isAllowedStartDate(it, today) },
             onDismiss = { showDateDialog = false },
             onConfirm = { date ->
                 onChange { it.copy(startDate = date) }
@@ -276,12 +280,16 @@ private fun Long.toLocalDate(): LocalDate = Instant.ofEpochMilli(this).atZone(Zo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun DateDialog(initial: LocalDate, minDate: LocalDate, onDismiss: () -> Unit, onConfirm: (LocalDate) -> Unit) {
-    val minMillis = minDate.toUtcMillis()
+private fun DateDialog(
+    initial: LocalDate,
+    isAllowed: (LocalDate) -> Boolean,
+    onDismiss: () -> Unit,
+    onConfirm: (LocalDate) -> Unit,
+) {
     val state = rememberDatePickerState(
         initialSelectedDateMillis = initial.toUtcMillis(),
         selectableDates = object : SelectableDates {
-            override fun isSelectableDate(utcTimeMillis: Long) = utcTimeMillis >= minMillis
+            override fun isSelectableDate(utcTimeMillis: Long) = isAllowed(utcTimeMillis.toLocalDate())
         },
     )
     DatePickerDialog(
@@ -299,11 +307,11 @@ private fun DateDialog(initial: LocalDate, minDate: LocalDate, onDismiss: () -> 
 
 @Preview(showBackground = true)
 @Composable
-private fun AddTaskContentPreview() {
+private fun TaskFormContentPreview() {
     PingMeTheme {
-        AddTaskContent(
+        TaskFormContent(
             TaskForm(name = "Suplementy", hasDeadline = true, scheduleOption = ScheduleOption.CUSTOM, startDate = LocalDate.now()),
-            onChange = {}, onSave = {}, onBack = {},
+            isEdit = false, onChange = {}, onSave = {}, onBack = {},
         )
     }
 }
