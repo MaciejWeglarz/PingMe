@@ -34,4 +34,33 @@
     <string name="error_deadline">Deadline musi być później niż przypomnienie</string>
     <string name="error_no_days">Wybierz przynajmniej jeden dzień</string>
     <string name="error_past_date">Data nie może być z przeszłości</string>
+
+    <!-- Powiadomienia i alarm -->
+    <string name="channel_reminders">Przypomnienia</string>
+    <string name="channel_alarms">Alarmy</string>
+    <string name="notification_reminder_text">Czas na zadanie</string>
+    <string name="action_done">Zrobione</string>
+    <string name="action_snooze">Przypomnij za 10 min</string>
+    <string name="action_dismiss">Wyłącz</string>
+    <string name="alarm_title">Minął deadline</string>
+    <string name="alarm_text">Zadanie miało być zrobione do %1$s</string>
+
+    <!-- Uprawnienia -->
+    <string name="permissions_title">Uprawnienia</string>
+    <string name="permissions_intro">Żeby przypomnienia przychodziły o czasie, PingMe potrzebuje poniższych uprawnień. Aplikacja otworzy się, gdy wszystkie będą włączone.</string>
+    <string name="permission_enable">Włącz</string>
+    <string name="permission_granted">✓ Włączone</string>
+    <string name="perm_notifications">Powiadomienia</string>
+    <string name="perm_notifications_desc">Żeby o godzinie przypomnienia pokazać powiadomienie z przyciskami „Zrobione” i „Przypomnij za 10 min”.</string>
+    <string name="perm_full_screen">Ekran alarmu</string>
+    <string name="perm_full_screen_desc">Żeby po minięciu deadline\'u alarm pokazał się na całym ekranie, także na zablokowanym telefonie. Przycisk otworzy ustawienia „Powiadomienia pełnoekranowe” – włącz tam przełącznik przy PingMe.</string>
+    <string name="perm_exact_alarms">Dokładne alarmy</string>
+    <string name="perm_exact_alarms_desc">Żeby przypomnienia przychodziły co do minuty, a nie z opóźnieniem. Przycisk otworzy ustawienia „Alarmy i przypomnienia” – włącz tam przełącznik.</string>
+    <string name="perm_battery">Bez optymalizacji baterii</string>
+    <string name="perm_battery_desc">Żeby system nie usypiał aplikacji i nie blokował alarmów. PingMe nie działa ciągle w tle – budzi się tylko na chwilę o zaplanowanych godzinach.</string>
+    <string name="perm_unused_app">Nie wstrzymuj aplikacji</string>
+    <string name="perm_unused_app_desc">Android sam odbiera uprawnienia aplikacjom, których dawno nie otwierano. Wyłącz opcję „Wstrzymaj aktywność aplikacji, jeśli nie jest używana”, żeby przypomnienia nie przestały działać po kilku tygodniach.</string>
+    <string name="intro_title">Witaj w PingMe!</string>
+    <string name="intro_text">Żeby przypomnienia i alarmy przychodziły o czasie, nawet gdy telefon śpi, aplikacja potrzebuje:\n\n%1$s\n\nNa następnym ekranie włączysz je po kolei. Przy każdym znajdziesz wyjaśnienie, do czego służy.</string>
+    <string name="intro_confirm">Rozumiem</string>
 </resources>

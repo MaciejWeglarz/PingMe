@@ -1,6 +1,8 @@
 package com.maciek.pingme.data
 
 import androidx.room.withTransaction
+import com.maciek.pingme.data.reminder.Notifier
+import com.maciek.pingme.data.reminder.ReminderScheduler
 import com.maciek.pingme.domain.DayTask
 import com.maciek.pingme.domain.Occurrence
 import com.maciek.pingme.domain.OccurrenceStatus
@@ -14,9 +16,20 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TaskRepository @Inject constructor(private val db: PingMeDatabase) {
+class TaskRepository @Inject constructor(
+    private val db: PingMeDatabase,
+    private val scheduler: ReminderScheduler,
+    private val notifier: Notifier,
+) {
     private val taskDao = db.taskDao()
     private val occurrenceDao = db.occurrenceDao()
+
+    suspend fun getTask(id: Long): Task? = taskDao.getById(id)?.toDomain()
+
+    suspend fun isDone(taskId: Long, date: LocalDate): Boolean {
+        val day = date.toEpochDay()
+        return occurrenceDao.getForTaskInRange(taskId, day, day).any { it.toDomain().status == OccurrenceStatus.DONE }
+    }
 
     fun observeDay(date: LocalDate): Flow<List<DayTask>> =
         combine(taskDao.observeActive(), occurrenceDao.observeForDate(date.toEpochDay())) { tasks, occurrences ->
@@ -24,12 +37,14 @@ class TaskRepository @Inject constructor(private val db: PingMeDatabase) {
         }
 
     suspend fun addTask(task: Task) {
-        taskDao.insert(task.toEntity())
+        val id = taskDao.insert(task.toEntity())
+        scheduler.schedule(task.copy(id = id))
     }
 
     suspend fun setDone(taskId: Long, date: LocalDate, done: Boolean) {
         if (done) {
             occurrenceDao.upsert(Occurrence(taskId, date, OccurrenceStatus.DONE).toEntity())
+            notifier.cancelAll(taskId)
         } else {
             occurrenceDao.delete(taskId, date.toEpochDay())
         }

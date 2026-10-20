@@ -1,6 +1,8 @@
 package com.maciek.pingme.domain
 
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 
 /** Czy zadanie wypada w podanym dniu. */
 fun Task.occursOn(date: LocalDate): Boolean {
@@ -12,6 +14,27 @@ fun Task.occursOn(date: LocalDate): Boolean {
         Schedule.Monthly -> date.dayOfMonth == minOf(startDate.dayOfMonth, date.lengthOfMonth())
         is Schedule.CustomDays -> date.dayOfWeek in schedule.days
     }
+}
+
+/** Zadanie cykliczne wypada co najmniej raz na tyle dni (z zapasem dla miesięcznych). */
+private const val MAX_DAYS_BETWEEN_OCCURRENCES = 62
+
+/**
+ * Najbliższy moment po [now], w którym zadanie wypada o godzinie [time].
+ * null, jeśli takiego terminu nie ma (np. jednorazowe z przeszłości).
+ */
+fun Task.nextTriggerAt(time: LocalTime, now: LocalDateTime): LocalDateTime? {
+    if (archived) return null
+    if (schedule == Schedule.Once) return startDate.atTime(time).takeIf { it > now }
+    var date = maxOf(now.toLocalDate(), startDate)
+    repeat(MAX_DAYS_BETWEEN_OCCURRENCES) {
+        if (occursOn(date)) {
+            val at = date.atTime(time)
+            if (at > now) return at
+        }
+        date = date.plusDays(1)
+    }
+    return null
 }
 
 /**
