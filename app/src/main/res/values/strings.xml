@@ -1,3 +1,37 @@
 <resources>
     <string name="app_name">PingMe</string>
+
+    <!-- Dziś -->
+    <string name="today_title">Dziś</string>
+    <string name="today_empty">Na dziś nic nie zaplanowano</string>
+    <string name="today_deadline">do %1$s</string>
+    <string name="add_task">Dodaj zadanie</string>
+
+    <!-- Formularz zadania -->
+    <string name="back">Wstecz</string>
+    <string name="task_name">Nazwa</string>
+    <string name="task_name_hint">np. Mycie zębów rano</string>
+    <string name="reminder_time">Przypomnienie</string>
+    <string name="deadline">Deadline</string>
+    <string name="deadline_description">Alarm, jeśli zadanie nie będzie odhaczone</string>
+    <string name="deadline_time">Godzina deadline\'u</string>
+    <string name="schedule">Harmonogram</string>
+    <string name="schedule_once">Jednorazowo</string>
+    <string name="schedule_daily">Codziennie</string>
+    <string name="schedule_weekly">Co tydzień</string>
+    <string name="schedule_monthly">Co miesiąc</string>
+    <string name="schedule_custom">Własne dni</string>
+    <string name="hint_weekly">Co tydzień, dzień: %1$s</string>
+    <string name="hint_monthly">Co miesiąc, %1$d. dnia</string>
+    <string name="hint_monthly_short">Co miesiąc, %1$d. dnia (w krótszych miesiącach – ostatniego dnia)</string>
+    <string name="date">Data</string>
+    <string name="start_date">Data startu</string>
+    <string name="save">Zapisz</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Anuluj</string>
+
+    <!-- Błędy formularza -->
+    <string name="error_deadline">Deadline musi być później niż przypomnienie</string>
+    <string name="error_no_days">Wybierz przynajmniej jeden dzień</string>
+    <string name="error_past_date">Data nie może być z przeszłości</string>
 </resources>
