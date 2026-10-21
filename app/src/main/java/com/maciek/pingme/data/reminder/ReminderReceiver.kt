@@ -4,12 +4,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.maciek.pingme.data.TaskRepository
+import com.maciek.pingme.domain.isDeadlinePassed
 import com.maciek.pingme.domain.occursOn
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 /** Odbiera odpalone alarmy i kliknięcia przycisków w powiadomieniach. */
@@ -42,7 +44,8 @@ class ReminderReceiver : BroadcastReceiver() {
                     if (action == ACTION_DEADLINE) {
                         notifier.cancelReminder(taskId)
                         notifier.showAlarm(task, date)
-                    } else {
+                    } else if (!task.isDeadlinePassed(date, LocalDateTime.now())) {
+                        // Po deadlinie dzwoni już alarm, więc zwykłe przypomnienie (np. po drzemce) byłoby dublem.
                         notifier.showReminder(task, date)
                     }
                 }
@@ -51,7 +54,7 @@ class ReminderReceiver : BroadcastReceiver() {
             ACTION_DONE -> repository.setDone(taskId, date, done = true)
             ACTION_SNOOZE -> {
                 notifier.cancelReminder(taskId)
-                scheduler.snooze(taskId)
+                scheduler.snooze(taskId, date)
             }
             ACTION_DISMISS -> notifier.cancelAlarm(taskId)
         }

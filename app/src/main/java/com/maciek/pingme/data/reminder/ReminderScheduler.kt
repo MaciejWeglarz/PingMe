@@ -12,6 +12,7 @@ import com.maciek.pingme.data.toDomain
 import com.maciek.pingme.domain.Task
 import com.maciek.pingme.domain.nextTriggerAt
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import javax.inject.Inject
@@ -41,13 +42,13 @@ class ReminderScheduler @Inject constructor(
         setOrCancel(taskId, ReminderReceiver.ACTION_SNOOZE_FIRED, null)
     }
 
-    /** „Przypomnij za 10 min”. */
-    fun snooze(taskId: Long) {
-        setOrCancel(taskId, ReminderReceiver.ACTION_SNOOZE_FIRED, LocalDateTime.now().plusMinutes(SNOOZE_MINUTES))
+    /** „Przypomnij za 10 min”. [date] to dzień wystąpienia: drzemka może przejść przez północ. */
+    fun snooze(taskId: Long, date: LocalDate) {
+        setOrCancel(taskId, ReminderReceiver.ACTION_SNOOZE_FIRED, LocalDateTime.now().plusMinutes(SNOOZE_MINUTES), date)
     }
 
-    private fun setOrCancel(taskId: Long, action: String, at: LocalDateTime?) {
-        val intent = ReminderReceiver.intent(context, action, taskId)
+    private fun setOrCancel(taskId: Long, action: String, at: LocalDateTime?, date: LocalDate? = null) {
+        val intent = ReminderReceiver.intent(context, action, taskId, date)
         val pending = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         if (at == null) {
             alarmManager.cancel(pending)
