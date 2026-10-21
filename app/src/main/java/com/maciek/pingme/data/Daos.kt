@@ -31,6 +31,12 @@ interface TaskDao {
 
     @Update
     suspend fun update(task: TaskEntity)
+
+    @Insert
+    suspend fun insertAll(tasks: List<TaskEntity>)
+
+    @Query("DELETE FROM tasks")
+    suspend fun deleteAll()
 }
 
 @Dao
@@ -47,6 +53,15 @@ interface OccurrenceDao {
 
     @Query("SELECT * FROM occurrences")
     fun observeAll(): Flow<List<OccurrenceEntity>>
+
+    @Query("SELECT * FROM occurrences")
+    suspend fun getAll(): List<OccurrenceEntity>
+
+    @Insert
+    suspend fun insertAll(occurrences: List<OccurrenceEntity>)
+
+    @Query("DELETE FROM occurrences")
+    suspend fun deleteAll()
 
     @Query("SELECT * FROM occurrences WHERE taskId = :taskId AND date BETWEEN :from AND :to")
     suspend fun getForTaskInRange(taskId: Long, from: Long, to: Long): List<OccurrenceEntity>

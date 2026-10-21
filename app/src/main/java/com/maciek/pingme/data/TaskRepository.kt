@@ -76,6 +76,27 @@ class TaskRepository @Inject constructor(
         }
     }
 
+    suspend fun exportBackup(): Backup = db.withTransaction {
+        Backup(taskDao.getAll(), occurrenceDao.getAll())
+    }
+
+    /** Zastępuje całą bazę kopią: w jednej transakcji, więc albo wszystko, albo nic. */
+    suspend fun importBackup(backup: Backup) {
+        val oldIds = taskDao.getAll().map { it.id }
+        db.withTransaction {
+            // Najpierw historia, bo odwołuje się do zadań (klucz obcy).
+            occurrenceDao.deleteAll()
+            taskDao.deleteAll()
+            taskDao.insertAll(backup.tasks)
+            occurrenceDao.insertAll(backup.occurrences)
+        }
+        oldIds.forEach {
+            scheduler.cancel(it)
+            notifier.cancelAll(it)
+        }
+        scheduler.scheduleAll()
+    }
+
     /** Zapisuje jako pominięte wszystkie nieodhaczone wystąpienia z minionych dni. */
     suspend fun fillMissedOccurrences(today: LocalDate) = db.withTransaction {
         val yesterday = today.minusDays(1)

@@ -23,6 +23,16 @@
     <string name="delete">Usuń</string>
     <string name="delete_title">Usunąć zadanie?</string>
     <string name="delete_text">Zadanie „%1$s” zniknie z list. Historia zostanie zachowana w statystykach.</string>
+    <string name="more_options">Więcej opcji</string>
+    <string name="backup_export">Eksportuj kopię</string>
+    <string name="backup_import">Importuj kopię</string>
+    <string name="backup_import_title">Wczytać kopię?</string>
+    <string name="backup_import_text">Obecne zadania i cała historia zostaną zastąpione danymi z pliku. Tego nie da się cofnąć.</string>
+    <string name="backup_import_confirm">Wybierz plik</string>
+    <string name="backup_exported">Zapisano kopię</string>
+    <string name="backup_export_failed">Nie udało się zapisać kopii</string>
+    <string name="backup_imported">Wczytano kopię</string>
+    <string name="backup_import_failed">Nie udało się wczytać pliku. Obecne dane zostały bez zmian.</string>
 
     <!-- Statystyki i serie -->
     <string name="stats_title">Statystyki</string>

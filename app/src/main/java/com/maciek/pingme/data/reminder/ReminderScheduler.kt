@@ -35,6 +35,12 @@ class ReminderScheduler @Inject constructor(
         db.taskDao().getActive().forEach { schedule(it.toDomain(), now) }
     }
 
+    fun cancel(taskId: Long) {
+        setOrCancel(taskId, ReminderReceiver.ACTION_REMINDER, null)
+        setOrCancel(taskId, ReminderReceiver.ACTION_DEADLINE, null)
+        setOrCancel(taskId, ReminderReceiver.ACTION_SNOOZE_FIRED, null)
+    }
+
     /** „Przypomnij za 10 min”. */
     fun snooze(taskId: Long) {
         setOrCancel(taskId, ReminderReceiver.ACTION_SNOOZE_FIRED, LocalDateTime.now().plusMinutes(SNOOZE_MINUTES))
