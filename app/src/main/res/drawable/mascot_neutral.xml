@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Wygenerowane skryptem: pingwinek trzymający mózg. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="200dp" android:height="200dp" android:viewportWidth="200" android:viewportHeight="200">
+    <path android:fillColor="#FFF2994A" android:pathData="M62,184a16,7 0 1,0 32,0a16,7 0 1,0 -32,0M106,184a16,7 0 1,0 32,0a16,7 0 1,0 -32,0" />
+    <path android:fillColor="@color/mascot_body" android:strokeColor="@color/mascot_outline" android:strokeWidth="3" android:pathData="M38,112a62,74 0 1,0 124,0a62,74 0 1,0 -124,0" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M56,136a44,46 0 1,0 88,0a44,46 0 1,0 -88,0" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M68,72a12,12 0 1,0 24,0a12,12 0 1,0 -24,0M108,72a12,12 0 1,0 24,0a12,12 0 1,0 -24,0" />
+    <path android:fillColor="#FF14213D" android:pathData="M76,74a6,6 0 1,0 12,0a6,6 0 1,0 -12,0M112,74a6,6 0 1,0 12,0a6,6 0 1,0 -12,0" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M82,71a2,2 0 1,0 4,0a2,2 0 1,0 -4,0M118,71a2,2 0 1,0 4,0a2,2 0 1,0 -4,0" />
+    <path android:fillColor="#FFF2994A" android:pathData="M90,86L110,86L100,98Z" />
+    <path android:fillColor="#FFF48FB1" android:pathData="M67,138a17,17 0 1,0 34,0a17,17 0 1,0 -34,0M82,128a18,18 0 1,0 36,0a18,18 0 1,0 -36,0M99,138a17,17 0 1,0 34,0a17,17 0 1,0 -34,0M75,154a15,15 0 1,0 30,0a15,15 0 1,0 -30,0M95,154a15,15 0 1,0 30,0a15,15 0 1,0 -30,0" />
+    <path android:strokeColor="#FFC2185B" android:strokeWidth="2.5" android:strokeLineCap="round" android:pathData="M100,114L100,166M84,128q8,4 2,12M116,128q-8,4 -2,12M80,150q8,-2 10,6M120,150q-8,-2 -10,6" />
+    <path android:fillColor="@color/mascot_body" android:strokeColor="@color/mascot_outline" android:strokeWidth="3" android:strokeLineJoin="round" android:pathData="M42,100Q34,140 66,150Q78,152 76,142Q60,130 52,98ZM158,100Q166,140 134,150Q122,152 124,142Q140,130 148,98Z" />
+</vector>

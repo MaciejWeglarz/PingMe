@@ -40,6 +40,8 @@ class TaskRepository @Inject constructor(
             tasksForDay(tasks.map { it.toDomain() }, occurrences.map { it.toDomain() }, date)
         }
 
+    fun observeAnySkipped(date: LocalDate): Flow<Boolean> = occurrenceDao.observeAnySkipped(date.toEpochDay())
+
     fun observeMonthlyStats(month: YearMonth): Flow<List<TaskStats>> =
         combine(taskDao.observeAll(), occurrenceDao.observeAll()) { tasks, occurrences ->
             monthlyStats(tasks.map { it.toDomain() }, occurrences.map { it.toDomain() }, month)

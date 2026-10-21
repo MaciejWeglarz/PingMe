@@ -7,4 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- Maskotka i ikona. W trybie ciemnym obrys odcina granatowego pingwinka od ciemnego tła. -->
+    <color name="mascot_body">#FF1F3A5F</color>
+    <color name="mascot_outline">#FF1F3A5F</color>
+    <color name="icon_background">#FFFCE4EC</color>
 </resources>

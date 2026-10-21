@@ -4,6 +4,9 @@
     <!-- Dziś -->
     <string name="today_title">Dziś</string>
     <string name="today_empty">Na dziś nic nie zaplanowano</string>
+    <string name="mood_happy">Wszystko zrobione! Pingwinek jest dumny.</string>
+    <string name="mood_neutral">Zostało do zrobienia: %1$d</string>
+    <string name="mood_sad">Ups, coś przegapiłeś. Dasz radę!</string>
     <string name="today_deadline">do %1$s</string>
     <string name="add_task">Dodaj zadanie</string>
     <string name="edit_task">Edytuj zadanie</string>

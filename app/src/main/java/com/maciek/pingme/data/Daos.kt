@@ -57,6 +57,9 @@ interface OccurrenceDao {
     @Query("SELECT * FROM occurrences")
     suspend fun getAll(): List<OccurrenceEntity>
 
+    @Query("SELECT EXISTS(SELECT 1 FROM occurrences WHERE date = :date AND status = 'SKIPPED')")
+    fun observeAnySkipped(date: Long): Flow<Boolean>
+
     @Insert
     suspend fun insertAll(occurrences: List<OccurrenceEntity>)
 
